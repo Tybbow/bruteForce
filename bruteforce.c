@@ -6,7 +6,7 @@
 /*   By: tybbow <tybbow@gmail.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 14:17:59 by tybbow            #+#    #+#             */
-/*   Updated: 2019/06/11 11:15:07 by tybbow           ###   ########.fr       */
+/*   Updated: 2019/06/11 11:53:15 by tybbow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ const	char alphaNum[] = {
 	"0123456789"
 };
 
-void	bruteForcing(char *currentPwd, int len)
+void	bruteForcing(u_char *currentPwd, int depth, int length)
 {
 	for (const char *c = alphaNum; *c; ++c)
 	{
-		currentPwd[len] = *c;
-		if (len < (strlen(currentPwd) - 1))
-			bruteForcing(currentPwd, (len + 1));
+		currentPwd[depth] = *c;
+		if (depth < (length - 1))
+			bruteForcing(currentPwd, (depth + 1), length);
 		printf(GRN "[!]" RST " Testing Password: %s\n", currentPwd);
 	}
 }
@@ -45,11 +45,11 @@ int		main(int ac, char **av)
 {
 	if (ac != 2 || !atoi(av[1]))
 		return (usage());
-	char *buffer = malloc((sizeof(char *) * atoi(av[1]) + 1));
+	u_char *buffer = malloc((sizeof(u_char *) * atoi(av[1]) + 1));
 	if (!buffer)
 		return (0xDEAD);;
 	memset(buffer, 'a', atoi(av[1]));
 	buffer[atoi(av[1])] = 0;
-	bruteForcing(buffer, 0);
+	bruteForcing(buffer, 0, atoi(av[1]));
 	return (0xDEAD);
 }
